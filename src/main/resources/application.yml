@@ -1,6 +1,23 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: fakeshop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fakeshop # CHANGE!
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: 1234
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgresPlusDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+logging:
+  level:
+    com.amazonaws.xray: DEBUG
