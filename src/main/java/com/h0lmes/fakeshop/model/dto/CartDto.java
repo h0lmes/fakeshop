@@ -23,4 +23,12 @@ public class CartDto {
     public void setProducts(List<ProductDto> products) {
         this.products = products;
     }
+
+    @Override
+    public String toString() {
+        return "CartDto{" +
+            "id=" + id +
+            ", products=" + products +
+            '}';
+    }
 }

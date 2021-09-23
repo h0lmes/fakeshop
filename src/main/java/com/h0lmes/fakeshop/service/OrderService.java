@@ -15,24 +15,28 @@ import com.h0lmes.fakeshop.model.dto.ProductDto;
 import com.h0lmes.fakeshop.repository.CartRepository;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @XRayEnabled
 public class OrderService {
+
     private final AWSCredentialsProvider awsCredentialsProvider;
     private final CartRepository cartRepository;
+    private AmazonSQS sqs;
 
-    {
-        String awsAccessKey = "accessKey";
-        String awsSecretKey = "secretKey";
-        awsCredentialsProvider = new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey));
-    }
+    @Value("${application.sqs.url}")
+    private String sqsUrl;
 
-    AmazonSQS sqs = AmazonSQSClientBuilder.standard().withCredentials(awsCredentialsProvider).withRegion(Regions.EU_CENTRAL_1).build();
 
-    public OrderService(CartRepository cartRepository) {
+    public OrderService(CartRepository cartRepository,
+                        @Value("${application.aws.access-key}") String awsAccessKey,
+                        @Value("${application.aws.secret-key}") String awsSecretKey
+    ) {
         this.cartRepository = cartRepository;
+        awsCredentialsProvider = new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey));
+        sqs = AmazonSQSClientBuilder.standard().withCredentials(awsCredentialsProvider).withRegion(Regions.EU_CENTRAL_1).build();
     }
 
     public void checkout(Long cartId) {
@@ -60,7 +64,7 @@ public class OrderService {
 
     private void sendMessageToSqs(CartDto cartDto) {
         SendMessageRequest sendMsgRequest = new SendMessageRequest()
-            .withQueueUrl("sqs-url-here")
+            .withQueueUrl(sqsUrl)
             .withMessageBody(cartDto.toString())
             .withDelaySeconds(5);
         sqs.sendMessage(sendMsgRequest);

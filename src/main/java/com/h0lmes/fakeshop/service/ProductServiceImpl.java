@@ -7,9 +7,6 @@ import com.h0lmes.fakeshop.repository.ProductRepository;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 @XRayEnabled
 public class ProductServiceImpl implements ProductService {

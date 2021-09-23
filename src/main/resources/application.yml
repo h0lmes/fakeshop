@@ -1,11 +1,12 @@
 spring:
   application:
     name: fakeshop
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/fakeshop # CHANGE!
+    url: jdbc:postgresql://fakeshop.cwfiovr0ofdt.eu-central-1.rds.amazonaws.com:5432/postgres # CHANGE!
     driverClassName: org.postgresql.Driver
     username: postgres
-    password: 1234
+    password: 12341234
 
   jpa:
     properties:
@@ -21,3 +22,10 @@ server:
 logging:
   level:
     com.amazonaws.xray: DEBUG
+
+application:
+  aws:
+    access-key: AKIAXWCCJRF2CTTJOMXC
+    secret-key: p/lgTTS49XC+Pka2900HriglSTM83DLAmnj3zuk0
+  sqs:
+    url: https://sqs.eu-central-1.amazonaws.com/528420014452/fakeshop
