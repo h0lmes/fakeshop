@@ -25,7 +25,7 @@ logging:
 
 application:
   aws:
-    access-key: AKIAXWCCJRF2CTTJOMXC
-    secret-key: p/lgTTS49XC+Pka2900HriglSTM83DLAmnj3zuk0
+    access-key: ???
+    secret-key: ???
   sqs:
     url: https://sqs.eu-central-1.amazonaws.com/528420014452/fakeshop
